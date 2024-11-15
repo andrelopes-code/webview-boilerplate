@@ -5,14 +5,13 @@ from src.backend import static
 from src.backend.utils import is_freezed
 from src.backend.api import API
 from src.config import CONFIG
-from src.backend.templating import render
-
-
-static_thread = static.serve()
-atexit.register(static_thread.cleanup)
+from src.backend.template import render
 
 
 def main():
+    cleanup = static.serve()
+    atexit.register(cleanup)
+
     api = API()
 
     window = webview.create_window(

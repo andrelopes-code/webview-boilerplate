@@ -15,7 +15,6 @@ class Config:
     resizable: bool
     min_size: tuple[int, int]
     static_dir: Path
-    static_addr: str
     static_port: int
     templates_dir: Path
 
@@ -30,7 +29,6 @@ CONFIG = Config(
     port=9876,
     templates_dir=TEMPLATES_DIR,
     # STATIC
-    static_addr='127.0.0.1',
     static_dir=TEMPLATES_DIR / 'static',
     static_port=6789,
 )

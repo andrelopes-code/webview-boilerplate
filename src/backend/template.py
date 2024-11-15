@@ -7,7 +7,7 @@ class StaticExtension(StandaloneTag):
     tags = {'static'}
 
     def render(self, path):
-        return f'http://{CONFIG.static_addr}:{CONFIG.static_port}/{path}'
+        return f'http://localhost:{CONFIG.static_port}/{path}'
 
 
 TEMPLATE_ENV = jinja2.Environment(

@@ -6,7 +6,7 @@ import psutil
 
 def serve():
     def run_server():
-        cmd = [
+        command = [
             'python',
             '-m',
             'http.server',
@@ -19,9 +19,8 @@ def serve():
         startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
         startupinfo.wShowWindow = subprocess.SW_HIDE
 
-        # Usar Popen em vez de run
         process = subprocess.Popen(
-            cmd,
+            command,
             stderr=subprocess.PIPE,
             stdout=subprocess.PIPE,
             startupinfo=startupinfo,
@@ -32,15 +31,15 @@ def serve():
     def cleanup():
         if hasattr(run_server, 'process'):
             try:
-                # Encerrar o processo e todos os seus filhos
                 parent = psutil.Process(run_server.process.pid)
                 for child in parent.children(recursive=True):
                     child.terminate()
                 parent.terminate()
+
             except (psutil.NoSuchProcess, ProcessLookupError):
                 pass
 
     thread = Thread(target=run_server, daemon=True)
-    thread.cleanup = cleanup
     thread.start()
-    return thread
+
+    return cleanup
