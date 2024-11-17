@@ -8,7 +8,8 @@ command = [
     'src/frontend:frontend',
     '--onefile',
     '--icon',
-    'src/frontend/templates/static/assets/icon.ico',
+    'src/frontend/static/assets/icon.ico',
 ]
 
-subprocess.run(command, check=True)
+if __name__ == '__main__':
+    subprocess.run(command, check=True)
