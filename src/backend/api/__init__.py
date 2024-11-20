@@ -1,10 +1,10 @@
-from src.backend.api.clipboard import ClipboardAPI
-from src.backend.api.files import FilesAPI
-from src.backend.api.window import WindowAPI
+from src.backend.api.common.clipboard import ClipboardAPI
+from src.backend.api.common.system import SystemAPI
+from src.backend.api.common.window import WindowAPI
 
 
 class API:
     def start(self, window):
-        self.files = FilesAPI(window)
+        self.system = SystemAPI(window)
         self.window = WindowAPI(window)
         self.clipboard = ClipboardAPI()

@@ -13,11 +13,11 @@ class Watcher:
         watch_thread = threading.Thread(
             target=self._watch_for_changes,
             args=(dir_to_watch, callback),
+            daemon=True,
         )
-        watch_thread.daemon = True
         watch_thread.start()
 
-    def cleanup(self):
+    def stop(self):
         self.watch_event.set()
 
     def _watch_for_changes(self, dir_to_watch, callback):
@@ -25,6 +25,5 @@ class Watcher:
             if self.watch_event.is_set():
                 break
 
-            for change in changes:
-                print(f'file changed: {change[1]}')
+            for _ in changes:
                 callback()

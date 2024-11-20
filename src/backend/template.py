@@ -1,6 +1,7 @@
 import jinja2
 from jinja2_simple_tags import StandaloneTag
 
+from src.backend.static import static_server
 from src.config import CONFIG
 
 
@@ -11,7 +12,7 @@ class StaticExtension(StandaloneTag):
 
     @staticmethod
     def render(path):
-        return f'http://localhost:{CONFIG.static_port}/{path}'
+        return static_server.get_url(path)
 
 
 TEMPLATE_ENV = jinja2.Environment(

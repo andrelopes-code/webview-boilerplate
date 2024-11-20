@@ -1,6 +1,9 @@
 import pyperclip
 
+from src.backend.utils import handle_api_errors
 
+
+@handle_api_errors
 class ClipboardAPI:
     """API for clipboard functions"""
 

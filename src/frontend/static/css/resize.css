@@ -5,6 +5,7 @@ body {
 
 .resize-handle {
     position: fixed;
+    z-index: 9999;
     background: transparent;
 }
 

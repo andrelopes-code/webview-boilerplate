@@ -15,8 +15,10 @@ dependencies = [
 [dependency-groups]
 dev = [
     "deep-translator>=1.11.4",
+    "djlint>=1.36.1",
     "isort>=5.13.2",
     "pyinstaller>=6.11.1",
+    "ruff>=0.7.4",
     "watchfiles>=0.24.0",
 ]
 
@@ -28,3 +30,6 @@ quote-style = 'single'
 [tool.ruff.lint]
 preview = true
 select = ['I', 'F', 'E', 'W', 'PT']
+
+[tool.djlint]
+profile="jinja"

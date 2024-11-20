@@ -1,8 +1,8 @@
 {
     "scripts": {
-        "tw": "npx tailwindcss -i ./src/frontend/static/css/input.css -o ./src/frontend/static/css/style.css --watch",
-        "dev": "npm-run-all --parallel tw app",
         "freeze": "python src/backend/freeze.py",
+        "tailwind": "npx tailwindcss -i ./src/frontend/static/css/input.css -o ./src/frontend/static/css/style.css --watch",
+        "dev": "npm-run-all --parallel tailwind app",
         "app": "python main.py"
     },
     "devDependencies": {
