@@ -2,8 +2,64 @@ import webview
 
 from src.backend.api.common.base import BaseAPI
 from src.backend.utils import handle_api_errors
+from src.backend.watcher import WatchData, watcher
 from src.config import CONFIG
 from src.pages import pages
+
+
+def create_window(
+    page_name,
+    *,
+    context,
+    title=None,
+    width=None,
+    height=None,
+    resizable=None,
+    frameless=None,
+    min_size=None,
+    background_color=None,
+    api=None,
+):
+    """
+    Creates a new PyWebView window for the given page.
+    It uses the parameters provided or the ones from the config.
+    """
+
+    page = getattr(pages, page_name, None)
+    if not page:
+        raise ValueError(f'Page {page_name} not found')
+
+    if api is None:
+        from src.backend.api import API
+
+        api = API()
+
+    window = webview.create_window(
+        title=title or CONFIG.title,
+        width=width or CONFIG.width,
+        height=height or CONFIG.height,
+        resizable=resizable or CONFIG.resizable,
+        frameless=frameless or CONFIG.frameless,
+        min_size=min_size or CONFIG.min_size,
+        background_color=background_color or CONFIG.background_color,
+        html=page(**context),
+        js_api=api,
+    )
+
+    api.start(window)
+
+    watcher.add_window(
+        WatchData(
+            window.uid,
+            window.title,
+            page_name,
+            page,
+            context,
+            window,
+        )
+    )
+
+    return window
 
 
 @handle_api_errors
@@ -62,52 +118,9 @@ class WindowAPI(BaseAPI):
             self._window.load_html(page())
 
     def new(self, page_name, kwargs):
-        window = self.create(page_name, **kwargs)
+        window = create_window(page_name, **kwargs)
 
         if self.children.get(self._window.uid):
             self.children[self._window.uid].append(window)
         else:
             self.children[self._window.uid] = [window]
-
-    @staticmethod
-    def create(
-        page_name,
-        *,
-        title=None,
-        width=None,
-        height=None,
-        resizable=None,
-        frameless=None,
-        min_size=None,
-        background_color=None,
-        api=None,
-    ):
-        """
-        Creates a new PyWebView window for the given page.
-        It uses the parameters provided or the ones from the config.
-        """
-
-        page = getattr(pages, page_name, None)
-        if not page:
-            raise ValueError(f'Page {page_name} not found')
-
-        if api is None:
-            from src.backend.api import API
-
-            api = API()
-
-        window = webview.create_window(
-            title=title or CONFIG.title,
-            width=width or CONFIG.width,
-            height=height or CONFIG.height,
-            resizable=resizable or CONFIG.resizable,
-            frameless=frameless or CONFIG.frameless,
-            min_size=min_size or CONFIG.min_size,
-            background_color=background_color or CONFIG.background_color,
-            html=page(),
-            js_api=api,
-        )
-
-        api.start(window)
-
-        return window
