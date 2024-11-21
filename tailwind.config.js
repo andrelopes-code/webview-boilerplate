@@ -15,7 +15,7 @@ module.exports = {
                     lighter: "#f7faff",
                 },
                 border: {
-                    DEFAULT: "#edeae8",
+                    DEFAULT: "#E7E5E5",
                 },
             },
         },

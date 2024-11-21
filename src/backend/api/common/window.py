@@ -82,6 +82,8 @@ class WindowAPI(BaseAPI):
             self._window.maximize()
             self.maximized = True
 
+        return self.maximized
+
     def destroy(self):
         for child in self.children.get(self._window.uid, []):
             child.destroy()

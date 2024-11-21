@@ -1,11 +1,12 @@
 <div class="flex justify-between items-center bg-transparent w-full h-full">
     <!-- Logo -->
-    <div class="flex justify-start items-center py-[1px] pl-[17px] pywebview-drag-region w-full h-full">
+    <div id="window-drag-region"
+         class="flex justify-start items-center py-[1px] pl-[17px] pywebview-drag-region w-full h-full">
         <img src="{% static 'assets/logo.png' %}"
              width=""
              height=""
              alt="Logo"
-             class="h-full hover:grayscale transition-all duration-500">
+             class="h-full">
     </div>
     <!-- Window Controls -->
     <div class="flex justify-center items-center h-full">
@@ -21,7 +22,19 @@
             </svg>
         </button>
         {% if resizable %}
-            <button onclick="window.pywebview.api.window.toggle_maximize()"
+            <script>
+                async function toggle_maximize() {
+                    const isMaximized = await window.pywebview.api.window.toggle_maximize();
+                    if (isMaximized) {
+                        document.getElementById("window-drag-region").classList.add("pointer-events-none");
+                        document.querySelectorAll(".resize-box").forEach((handle) => handle.classList.add("hidden"));
+                    } else {
+                        document.getElementById("window-drag-region").classList.remove("pointer-events-none");
+                        document.querySelectorAll(".resize-box").forEach((handle) => handle.classList.remove("hidden"));
+                    }
+                }
+            </script>
+            <button onclick="toggle_maximize()"
                     class="px-4 window-button h-full text-center group">
                 <svg class="group-hover:fill-primary"
                      xmlns="http://www.w3.org/2000/svg"

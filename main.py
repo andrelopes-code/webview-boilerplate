@@ -3,7 +3,7 @@ import webview
 from src.backend.api import API
 from src.backend.api.common.window import create_window
 from src.backend.static import static_server
-from src.backend.utils import is_frozen, setup_cleanup_functions
+from src.backend.utils import setup_cleanup_functions
 from src.backend.watcher import watcher
 from src.config import CONFIG
 
@@ -26,10 +26,7 @@ class App:
             if CONFIG.debug and CONFIG.watch:
                 watcher.start(dir_to_watch=CONFIG.templates_dir)
 
-            webview.start(
-                debug=False if is_frozen() else CONFIG.debug,
-                http_server=True,
-            )
+            webview.start(debug=CONFIG.debug, http_server=True)
 
         except Exception:
             import traceback
