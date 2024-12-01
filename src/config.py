@@ -17,10 +17,10 @@ class CONFIG:
     resizable = True
     frameless = True
     min_size = 800, 600
-    debug = False if is_frozen() else True
-    watch = True
     templates_dir = TEMPLATES_DIR
     static_dir = TEMPLATES_DIR / 'static'
+    debug = False if is_frozen() else True
+    watch = True
 
     background_color = '#f0f2f2'
 

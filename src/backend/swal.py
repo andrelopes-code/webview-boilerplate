@@ -1,3 +1,5 @@
+"""Sweetalert2 wrapper functions for PyWebview"""
+
 import json
 
 

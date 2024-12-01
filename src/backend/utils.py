@@ -20,8 +20,8 @@ def resource_path(relative_path):
     return bundler_dir / relative_path
 
 
-def setup_cleanup_functions(*functions):
-    """Function to register cleanup/stop functions"""
+def register_stop_functions(*functions):
+    """Function to register cleanup/stop functions using atexit"""
 
     for function in functions:
         atexit.register(function)

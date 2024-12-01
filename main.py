@@ -3,7 +3,7 @@ import webview
 from src.backend.api import API
 from src.backend.api.common.window import create_window
 from src.backend.static import static_server
-from src.backend.utils import setup_cleanup_functions
+from src.backend.utils import register_stop_functions
 from src.backend.watcher import watcher
 from src.config import CONFIG
 
@@ -15,7 +15,7 @@ class App:
         try:
             api = API()
 
-            setup_cleanup_functions(
+            register_stop_functions(
                 watcher.stop,
                 static_server.stop,
             )
