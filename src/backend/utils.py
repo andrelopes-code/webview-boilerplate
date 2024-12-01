@@ -39,7 +39,8 @@ def handle_api_errors(cls):
                     return method(self, *args, **kwargs)
 
                 except Exception as e:
-                    print(traceback.format_exc())
+                    with open('error.log', 'a') as f:
+                        f.write(f'{traceback.format_exc()}\n')
 
                     if window := getattr(self, '_window', None):
                         swal.error(
