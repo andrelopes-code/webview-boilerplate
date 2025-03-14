@@ -1,6 +1,6 @@
 import webview
 
-from src.backend.api.common.base import BaseAPI
+from src.api.common.base import BaseAPI
 from src.backend.utils import handle_api_errors
 from src.backend.watcher import WatchData, watcher
 from src.config import CONFIG
@@ -10,7 +10,7 @@ from src.pages import pages
 def create_window(
     page_name,
     *,
-    context,
+    context=None,
     title=None,
     width=None,
     height=None,
@@ -27,10 +27,10 @@ def create_window(
 
     page = getattr(pages, page_name, None)
     if not page:
-        raise ValueError(f'Page {page_name} not found')
+        raise ValueError(f'Page {page_name!r} not found')
 
     if api is None:
-        from src.backend.api import API
+        from src.api.api import API
 
         api = API()
 
@@ -42,7 +42,7 @@ def create_window(
         frameless=frameless or CONFIG.frameless,
         min_size=min_size or CONFIG.min_size,
         background_color=background_color or CONFIG.background_color,
-        html=page(**context),
+        html=page(context),
         js_api=api,
     )
 
@@ -115,12 +115,15 @@ class WindowAPI(BaseAPI):
             'height': self._window.min_size[1],
         }
 
-    def goto(self, page_name):
+    def navigate(self, page_name, context=None):
         if page := getattr(pages, page_name, None):
-            self._window.load_html(page())
+            self._window.evaluate_js(
+                # Update the page content by replacing the root element innerHTML.
+                f'document.getElementById("root").innerHTML = `{page(context)}`;'
+            )
 
-    def new(self, page_name, kwargs):
-        window = create_window(page_name, **kwargs)
+    def new(self, page_name, kwargs=None):
+        window = create_window(page_name, **(kwargs or {}))
 
         if self.children.get(self._window.uid):
             self.children[self._window.uid].append(window)

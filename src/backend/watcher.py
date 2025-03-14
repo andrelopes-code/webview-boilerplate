@@ -60,7 +60,7 @@ class Watcher:
                     windows_to_watch_copy = self.windows_to_watch.copy()
 
                 for data in windows_to_watch_copy.values():
-                    data.window.load_html(data.page_function(**data.context))
+                    data.window.load_html(data.page_function(data.context))
 
 
 watcher = Watcher()

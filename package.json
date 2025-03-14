@@ -1,7 +1,8 @@
 {
     "scripts": {
-        "freeze": "python src/backend/freeze.py",
-        "tailwind": "npx tailwindcss -i ./src/frontend/static/css/input.css -o ./src/frontend/static/css/style.css --watch",
+        "freeze": "npm run tailwind-build && pyinstaller main.py --windowed --add-data src/frontend:frontend --onefile --icon src/frontend/static/assets/icon.ico",
+        "tailwind-build": "npx tailwindcss -i ./src/frontend/static/css/input.css -o ./src/frontend/static/css/style.css  --minify",
+        "tailwind": "npx tailwindcss -i ./src/frontend/static/css/input.css -o ./src/frontend/static/css/style.css  --minify --watch",
         "dev": "npm-run-all --parallel tailwind app",
         "app": "python main.py"
     },

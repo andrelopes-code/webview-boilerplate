@@ -1,10 +1,14 @@
 from src.backend.template import render
-from src.config import CONFIG
 
 
 class Pages:
-    def index(self, **context):
-        return render('index.html', **{**CONFIG.BASE_CONTEXT, **context})
+    INITIAL_PAGE_NAME = 'index'
+
+    def base(self, context=None):
+        return render('base.html', context)
+
+    def index(self, context=None):
+        return render('index.html', context)
 
 
 pages = Pages()

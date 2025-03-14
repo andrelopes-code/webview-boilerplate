@@ -21,7 +21,10 @@ def resource_path(relative_path):
 
 
 def register_stop_functions(*functions):
-    """Function to register cleanup/stop functions using atexit"""
+    """
+    Function to register cleanup/stop functions using atexit.
+    These functions will be called when the app is closed.
+    """
 
     for function in functions:
         atexit.register(function)

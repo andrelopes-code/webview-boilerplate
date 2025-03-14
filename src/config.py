@@ -22,6 +22,8 @@ class CONFIG:
     debug = False if is_frozen() else True
     watch = True
 
+    # Background color of the window. This
+    # color blinks when the window starts.
     background_color = '#f0f2f2'
 
     BASE_CONTEXT = {
