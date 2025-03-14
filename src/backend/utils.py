@@ -17,7 +17,7 @@ def resource_path(relative_path):
     """Get absolute path to resource, works for dev and for PyInstaller"""
 
     bundler_dir = Path(getattr(sys, '_MEIPASS', Path(__file__).parent.parent))
-    return bundler_dir / relative_path
+    return str(bundler_dir / relative_path)
 
 
 def register_stop_functions(*functions):
