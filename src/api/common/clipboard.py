@@ -1,10 +1,11 @@
 import pyperclip
 
+from src.api.common.base import BaseAPI
 from src.core.utils import handle_api_errors
 
 
 @handle_api_errors
-class ClipboardAPI:
+class ClipboardAPI(BaseAPI):
     """API for clipboard functions"""
 
     def get(self):

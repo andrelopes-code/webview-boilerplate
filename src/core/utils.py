@@ -51,7 +51,7 @@ def handle_api_errors(cls):
                         alert.error(
                             window,
                             str(e),
-                            f'{self.__class__.__name__}.{method.__name__} error:',
+                            f'Erro em: {self.__class__.__name__}.{method.__name__}',
                         )
                     else:
                         raise

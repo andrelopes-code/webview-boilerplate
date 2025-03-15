@@ -47,6 +47,10 @@
                 // Loads the initial page when the window is ready.
                 window.addEventListener('pywebviewready', () => {
                     window.pywebview.api.window.navigate('{{ initial_page_name }}');
+
+                    // Shortcuts.
+                    window.api = window.pywebview.api;
+                    window.wv = window.pywebview;
                 });
             </script>
 

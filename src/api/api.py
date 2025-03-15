@@ -4,9 +4,14 @@ from src.api.common.window import WindowAPI
 
 
 class API:
-    def start(self, window):
-        self._window = window
-
+    def start_internal_apis(self, window):
         self.system = SystemAPI(window)
         self.window = WindowAPI(window)
-        self.clipboard = ClipboardAPI()
+        self.clipboard = ClipboardAPI(window)
+
+    def start(self, window):
+        # Internal APIs used by the frontend.
+        self.start_internal_apis(window)
+
+        # your APIs here.
+        # self.foo = FooAPI(window)
