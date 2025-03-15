@@ -1,10 +1,12 @@
 import atexit
 import functools
+import logging
 import sys
-import traceback
 from pathlib import Path
 
-from src.backend import swal
+from src.core import alert
+
+logger = logging.getLogger()
 
 
 def is_frozen():
@@ -16,7 +18,8 @@ def is_frozen():
 def resource_path(relative_path):
     """Get absolute path to resource, works for dev and for PyInstaller"""
 
-    bundler_dir = Path(getattr(sys, '_MEIPASS', Path(__file__).parent.parent))
+    project_dir = Path(__file__).parent.parent.parent
+    bundler_dir = Path(getattr(sys, '_MEIPASS', project_dir))
     return str(bundler_dir / relative_path)
 
 
@@ -42,11 +45,10 @@ def handle_api_errors(cls):
                     return method(self, *args, **kwargs)
 
                 except Exception as e:
-                    with open('error.log', 'a') as f:
-                        f.write(f'{traceback.format_exc()}\n')
+                    logger.exception(e)
 
                     if window := getattr(self, '_window', None):
-                        swal.error(
+                        alert.error(
                             window,
                             str(e),
                             f'{self.__class__.__name__}.{method.__name__} error:',

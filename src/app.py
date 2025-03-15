@@ -2,10 +2,10 @@ import webview
 
 from src.api.api import API
 from src.api.common.window import create_window
-from src.backend.static import static_server
-from src.backend.utils import register_stop_functions
-from src.backend.watcher import watcher
 from src.config import CONFIG
+from src.core.static import static_server
+from src.core.utils import register_stop_functions
+from src.core.watcher import watcher
 from src.pages import pages
 
 
@@ -21,12 +21,8 @@ class App:
                 static_server.stop,
             )
 
-            window = create_window(
-                'base',
-                # Pass the initial page name to the base template.
-                context={'initial_page_name': pages.INITIAL_PAGE_NAME},
-                api=api,
-            )
+            # Create the main window, starting with the initial page content.
+            window = create_window(initial_page_name=pages.INITIAL_PAGE_NAME, api=api)
 
             api.start(window)
 

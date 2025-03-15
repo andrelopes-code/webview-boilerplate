@@ -1,15 +1,16 @@
 import webview
 
 from src.api.common.base import BaseAPI
-from src.backend.utils import handle_api_errors
-from src.backend.watcher import WatchData, watcher
 from src.config import CONFIG
+from src.core.template import render
+from src.core.utils import handle_api_errors
+from src.core.watcher import WatchData, watcher
 from src.pages import pages
 
 
 def create_window(
-    page_name,
     *,
+    initial_page_name='index',
     context=None,
     title=None,
     width=None,
@@ -21,18 +22,20 @@ def create_window(
     api=None,
 ):
     """
-    Creates a new PyWebView window for the given page.
+    Creates a new PyWebView window with the given parameters.
     It uses the parameters provided or the ones from the config.
     """
-
-    page = getattr(pages, page_name, None)
-    if not page:
-        raise ValueError(f'Page {page_name!r} not found')
 
     if api is None:
         from src.api.api import API
 
         api = API()
+
+    if not hasattr(pages, initial_page_name):
+        raise ValueError(f'Page {initial_page_name} does not exist.')
+
+    context = {'initial_page_name': initial_page_name, **(context or {})}
+    base_page = lambda: render('base.html', context)  # noqa: E731
 
     window = webview.create_window(
         title=title or CONFIG.title,
@@ -42,7 +45,7 @@ def create_window(
         frameless=frameless or CONFIG.frameless,
         min_size=min_size or CONFIG.min_size,
         background_color=background_color or CONFIG.background_color,
-        html=page(context),
+        html=base_page(),
         js_api=api,
     )
 
@@ -52,8 +55,7 @@ def create_window(
         WatchData(
             window.uid,
             window.title,
-            page_name,
-            page,
+            base_page,
             context,
             window,
         )
@@ -123,7 +125,7 @@ class WindowAPI(BaseAPI):
             )
 
     def new(self, page_name, kwargs=None):
-        window = create_window(page_name, **(kwargs or {}))
+        window = create_window(initial_page_name=page_name, **(kwargs or {}))
 
         if self.children.get(self._window.uid):
             self.children[self._window.uid].append(window)

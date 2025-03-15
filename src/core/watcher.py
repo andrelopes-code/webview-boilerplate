@@ -10,7 +10,6 @@ from webview import Window
 class WatchData:
     uid: str
     title: str
-    page_name: str
     page_function: Callable
     context: dict
     window: Window

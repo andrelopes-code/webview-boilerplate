@@ -1,14 +1,13 @@
-from src.backend.template import render
+from src.core.template import render
 
 
 class Pages:
+    # The initial page that base.html
+    # will load when the window is created.
     INITIAL_PAGE_NAME = 'index'
 
-    def base(self, context=None):
-        return render('base.html', context)
-
     def index(self, context=None):
-        return render('index.html', context)
+        return render('pages/index.html', context)
 
 
 pages = Pages()

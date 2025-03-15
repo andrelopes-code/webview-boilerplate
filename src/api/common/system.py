@@ -1,7 +1,7 @@
 import webview
 
 from src.api.common.base import BaseAPI
-from src.backend.utils import handle_api_errors
+from src.core.utils import handle_api_errors
 
 
 @handle_api_errors

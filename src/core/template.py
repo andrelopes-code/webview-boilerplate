@@ -1,8 +1,8 @@
 import jinja2
 from jinja2_simple_tags import StandaloneTag
 
-from src.backend.static import static_server
 from src.config import CONFIG
+from src.core.static import static_server
 
 
 class StaticExtension(StandaloneTag):
