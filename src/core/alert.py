@@ -1,10 +1,8 @@
 import json
 
 
-def _execute(window, function_name, *args):
-    args_str = json.dumps(args)[1:-1]
-    result = window.evaluate_js(f'Alert.{function_name}({args_str})')
-    return result
+def _execute_alert(window, function_name, *args):
+    return window.evaluate_js(f'Alert.{function_name}({json.dumps(args)[1:-1]})')
 
 
 def success(
@@ -12,7 +10,7 @@ def success(
     message,
     title='Sucesso',
 ):
-    return _execute(
+    return _execute_alert(
         window,
         'success',
         message,
@@ -25,7 +23,7 @@ def info(
     message,
     title='Info',
 ):
-    return _execute(
+    return _execute_alert(
         window,
         'info',
         message,
@@ -38,7 +36,7 @@ def error(
     message,
     title='Erro',
 ):
-    return _execute(
+    return _execute_alert(
         window,
         'error',
         message,
@@ -51,7 +49,7 @@ def warning(
     message,
     title='Aviso',
 ):
-    return _execute(
+    return _execute_alert(
         window,
         'warning',
         message,

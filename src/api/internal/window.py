@@ -1,9 +1,8 @@
 import webview
 
-from src.api.common.base import BaseAPI
+from src.api import API, register
 from src.config import CONFIG
 from src.core.template import render
-from src.core.utils import handle_api_errors
 from src.core.watcher import WatchData, watcher
 from src.pages import pages
 
@@ -27,15 +26,13 @@ def create_window(
     """
 
     if api is None:
-        from src.api.api import API
-
         api = API()
 
     if not hasattr(pages, initial_page_name):
         raise ValueError(f'Page {initial_page_name} does not exist.')
 
     context = {'initial_page_name': initial_page_name, **(context or {})}
-    base_page = lambda: render('base.html', context)  # noqa: E731
+    base_page = lambda ctx=None: render('base.html', ctx or context)  # noqa: E731
 
     window = webview.create_window(
         title=title or CONFIG.title,
@@ -49,7 +46,7 @@ def create_window(
         js_api=api,
     )
 
-    api.start(window)
+    api._start(window)
 
     watcher.add_window(
         WatchData(
@@ -64,13 +61,12 @@ def create_window(
     return window
 
 
-@handle_api_errors
-class WindowAPI(BaseAPI):
+@register('window')
+class WindowAPI:
     """API for window related functions"""
 
     def __init__(self, window):
-        super().__init__(window)
-        self.children = {self._window.uid: []}
+        self.children = {window.uid: []}
         self.maximized = False
 
     def minimize(self):

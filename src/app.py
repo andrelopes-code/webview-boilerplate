@@ -1,7 +1,7 @@
 import webview
 
-from src.api.api import API
-from src.api.common.window import create_window
+from src.api import API
+from src.api.internal.window import create_window
 from src.config import CONFIG
 from src.core.static import static_server
 from src.core.utils import register_stop_functions
@@ -24,13 +24,13 @@ class App:
             # Create the main window, starting with the initial page content.
             window = create_window(initial_page_name=pages.INITIAL_PAGE_NAME, api=api)
 
-            api.start(window)
+            api._start(window)
 
             if CONFIG.debug and CONFIG.watch:
                 # Watch for changes in the templates directory.
                 watcher.start(dir_to_watch=CONFIG.templates_dir)
 
-            webview.start(debug=CONFIG.debug, http_server=True)
+            webview.start(debug=CONFIG.debug, http_server=False)
 
         except Exception:
             import traceback

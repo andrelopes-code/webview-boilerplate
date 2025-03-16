@@ -34,7 +34,10 @@ def register_stop_functions(*functions):
 
 
 def handle_api_errors(cls):
-    """Decorator to handle API errors using the sweetalert2 library"""
+    """
+    Decorator that handles uncaught errors in the api
+    methods and sends an alert to the frontend.
+    """
 
     for name, method in cls.__dict__.items():
         if callable(method) and not name.startswith('_'):

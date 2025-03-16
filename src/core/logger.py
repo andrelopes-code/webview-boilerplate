@@ -10,6 +10,7 @@ file_handler = logging.FileHandler('app.log')
 file_handler.setLevel(logging.INFO)
 
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
 console_handler.setFormatter(formatter)
 file_handler.setFormatter(formatter)
 
