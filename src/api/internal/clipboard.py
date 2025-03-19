@@ -1,6 +1,6 @@
 import pyperclip
 
-from src.api import register
+from src.api.manager import register
 
 
 @register('clipboard')

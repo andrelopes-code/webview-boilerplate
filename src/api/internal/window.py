@@ -1,6 +1,6 @@
 import webview
 
-from src.api import API, register
+from src.api.manager import API, register
 from src.config import CONFIG
 from src.core.template import render
 from src.core.watcher import WatchData, watcher

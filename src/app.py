@@ -1,12 +1,16 @@
+import logging
+
 import webview
 
-from src.api import API
 from src.api.internal.window import create_window
+from src.api.manager import API
 from src.config import CONFIG
 from src.core.static import static_server
 from src.core.utils import register_stop_functions
 from src.core.watcher import watcher
 from src.pages import pages
+
+logger = logging.getLogger()
 
 
 class App:
@@ -33,6 +37,4 @@ class App:
             webview.start(debug=CONFIG.debug, http_server=False)
 
         except Exception:
-            import traceback
-
-            traceback.print_exc()
+            logger.exception('Error starting the application')
