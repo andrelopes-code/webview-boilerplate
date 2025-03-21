@@ -1,6 +1,7 @@
 {
     "scripts": {
-        "freeze": "npm run tailwind-build && pyinstaller main.spec",
+        "build": "npm run tailwind-build && python setup.py build",
+        "bdist": "npm run tailwind-build && python setup.py bdist_msi",
         "tailwind-build": "npx tailwindcss -i ./src/frontend/static/css/input.css -o ./src/frontend/static/css/style.css  --minify",
         "tailwind": "npx tailwindcss -i ./src/frontend/static/css/input.css -o ./src/frontend/static/css/style.css  --minify --watch",
         "dev": "npm-run-all --parallel tailwind app",

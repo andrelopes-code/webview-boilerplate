@@ -12,15 +12,18 @@ logger = logging.getLogger()
 def is_frozen():
     """Check if app is frozen"""
 
-    return True if getattr(sys, '_MEIPASS', None) else False
+    return getattr(sys, 'frozen', False)
 
 
 def resource_path(relative_path):
-    """Get absolute path to resource, works for dev and for PyInstaller"""
+    """Get absolute path to resource"""
 
-    project_dir = Path(__file__).parent.parent.parent
-    bundler_dir = Path(getattr(sys, '_MEIPASS', project_dir))
-    return str(bundler_dir / relative_path)
+    if is_frozen():
+        base_path = Path(sys.executable).parent
+    else:
+        base_path = Path(__file__).parent.parent.parent
+
+    return str(base_path / relative_path)
 
 
 def register_stop_functions(*functions):
